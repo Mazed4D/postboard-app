@@ -17,7 +17,7 @@ const PostButton = ({
 }: buttonProps) => {
 	return (
 		<Pressable style={[styles.button, { maxWidth: maxWidth }]}>
-			{iconName && <Feather name={iconName} size={20} color={'white'} />}
+			{iconName && <Feather name={iconName} size={20} color={'#7575FF'} />}
 			{!iconName && <Text style={styles.text}>{title}</Text>}
 		</Pressable>
 	);
@@ -28,10 +28,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 5,
-		backgroundColor: '#7575FF',
-		borderColor: 'rgba(168,168,255, 0.5)',
-		borderWidth: 2,
-		borderRadius: 5,
+		// backgroundColor: '#7575FF',
+		// borderColor: 'rgba(168,168,255, 0.5)',
+		// borderWidth: 2,
+		// borderRadius: 5,
 	},
 	text: {
 		color: '#f8f8ff',
