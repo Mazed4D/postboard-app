@@ -7,6 +7,8 @@ export default function Auth() {
 	const [password, setPassword] = useState('');
 	const [isRegister, setIsRegister] = useState(false);
 
+	const authHandler = () => {};
+
 	return (
 		<View style={styles.pageContainer}>
 			<Text style={styles.title}>Welcome to Postboard!</Text>
@@ -40,7 +42,7 @@ export default function Auth() {
 				)}
 				<Button
 					title={`${isRegister ? 'Already' : `Don't`} have an account?`}
-					onPress={() => console.log('e')}
+					onPress={() => setIsRegister(!isRegister)}
 				/>
 			</View>
 		</View>
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		flex: 5,
 		marginTop: '2rem',
-		maxHeight: '12rem',
+		maxHeight: '18rem',
 		width: '90%',
 		borderRadius: 10,
 		justifyContent: 'space-evenly',
