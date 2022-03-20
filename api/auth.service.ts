@@ -1,40 +1,53 @@
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
-const login = async ({ email, password }) => {
+type loginProps = {
+	email: string;
+	password: string;
+};
+
+type registerProps = {
+	email: string;
+	username: string;
+	password: string;
+};
+
+const login = async ({ email, password }: loginProps) => {
 	try {
 		const res = await axios.post(`${process.env.REACT_APP_API}/auth/login`, {
 			email,
 			password,
 		});
-		localStorage.setItem('token', res.data.token);
-		localStorage.setItem('user', res.data.user.name);
-		localStorage.setItem('userId', res.data.user.userId);
+
+		await SecureStore.setItemAsync('token', res.data.token);
+		await SecureStore.setItemAsync('user', res.data.user.name);
+		await SecureStore.setItemAsync('userId', res.data.user.userId);
 		return res.data;
-	} catch (error) {
+	} catch (error: any) {
 		return { error: error.response };
 	}
 };
 
-const register = async ({ name, email, password }) => {
+const register = async ({ username: name, email, password }: registerProps) => {
 	try {
 		const res = await axios.post(`${process.env.REACT_APP_API}/auth/register`, {
 			name,
 			email,
 			password,
 		});
-		localStorage.setItem('token', res.data.token);
-		localStorage.setItem('user', res.data.user.name);
-		localStorage.setItem('userId', res.data.user.userId);
+		await SecureStore.setItemAsync('token', res.data.token);
+		await SecureStore.setItemAsync('user', res.data.user.name);
+		await SecureStore.setItemAsync('userId', res.data.user.userId);
 		return await res.data;
-	} catch (error) {
+	} catch (error: any) {
 		return { error: error.response };
 	}
 };
 
-const logout = () => {
-	localStorage.removeItem('token');
-	localStorage.removeItem('user');
-	localStorage.removeItem('userId');
+const logout = async () => {
+	await SecureStore.deleteItemAsync('token');
+	await SecureStore.deleteItemAsync('user');
+	await SecureStore.deleteItemAsync('userId');
 	return;
 };
 
