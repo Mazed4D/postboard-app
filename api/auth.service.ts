@@ -24,7 +24,7 @@ const login = async ({ email, password }: loginProps) => {
 		await SecureStore.setItemAsync('userId', res.data.user.userId);
 		return res.data;
 	} catch (error: any) {
-		return { error };
+		return error;
 	}
 };
 
