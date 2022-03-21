@@ -4,10 +4,10 @@ import authServices from '../api/auth.service';
 import * as SecureStore from 'expo-secure-store';
 
 export default function Auth() {
-	const [email, setEmail] = useState('');
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [isRegister, setIsRegister] = useState(false);
+	const [email, setEmail] = useState<string>('');
+	const [username, setUsername] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [isRegister, setIsRegister] = useState<boolean>(false);
 
 	const authHandler = async () => {
 		if (isRegister) {
