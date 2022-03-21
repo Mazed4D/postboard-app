@@ -1,19 +1,42 @@
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Card from '../Components/Post/Card';
+import apiServices from '../api/api.service';
+import * as SecureStore from 'expo-secure-store';
 
-type HomeProps = {
-	navigation: { navigate: Function };
-};
+export const Home = () => {
+	const [posts, setPosts] = useState<Array<string>>([]);
+	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
+	const [pageNum, setPageNum] = useState<number>(1);
 
-export const Home: React.FC<HomeProps> = ({ navigation }) => {
+	useEffect(() => {
+		const fetchUsers = async () => {
+			try {
+				const userId = await SecureStore.getItemAsync('token');
+				await apiServices.printPosts(
+					pageNum,
+					setPosts,
+					setNumberOfPosts,
+					false
+				);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchUsers();
+	}, [pageNum]);
+
 	return (
-		<ScrollView>
-			<Card />
-			<Card />
-			<Card />
-			<Card />
-		</ScrollView>
+		<>
+			{posts && (
+				<FlatList
+					data={posts}
+					renderItem={(post) => {
+						return <Card postId={post} />;
+					}}
+				/>
+			)}
+		</>
 	);
 };
 
