@@ -17,7 +17,7 @@ const ProfileHeader = () => {
 const styles = StyleSheet.create({
 	header: {
 		flex: 1,
-		height: 70,
+		minHeight: 70,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		marginTop: 16,

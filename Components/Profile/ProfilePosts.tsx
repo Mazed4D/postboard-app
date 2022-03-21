@@ -4,12 +4,12 @@ import Card from '../Post/Card';
 
 const ProfilePosts = () => {
 	return (
-		<>
+		<ScrollView>
 			<Card />
 			<Card />
 			<Card />
 			<Card />
-		</>
+		</ScrollView>
 	);
 };
 
