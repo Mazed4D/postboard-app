@@ -1,9 +1,9 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Feather } from '@expo/vector-icons/';
 
 type buttonProps = {
-	title: string;
+	title?: string;
 	onPress: Function;
 	maxWidth?: string;
 	iconName?: keyof typeof Feather.glyphMap;
@@ -15,10 +15,23 @@ const PostButton = ({
 	maxWidth = '100%',
 	iconName,
 }: buttonProps) => {
+	const [pressed, setPressed] = useState(false);
+
 	return (
-		<Pressable style={[styles.button, { maxWidth: maxWidth }]}>
-			{iconName && <Feather name={iconName} size={20} color={'#7575FF'} />}
-			{!iconName && <Text style={styles.text}>{title}</Text>}
+		<Pressable
+			onPressIn={() => setPressed(true)}
+			onPressOut={() => setPressed(false)}
+			style={[styles.button, { maxWidth: maxWidth }]}
+		>
+			{title && <Text style={styles.text}>{title}</Text>}
+			{iconName && (
+				<Feather
+					name={iconName}
+					size={20}
+					color={'#7575FF'}
+					style={pressed && { transform: [{ scale: 1.3 }] }}
+				/>
+			)}
 		</Pressable>
 	);
 };
