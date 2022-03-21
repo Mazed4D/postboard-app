@@ -1,20 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, ScrollView } from 'react-native';
 import React from 'react';
 import ProfileHeader from '../Components/Profile/ProfileHeader';
 import ProfilePosts from '../Components/Profile/ProfilePosts';
 
 export default function Profile() {
 	return (
-		<View style={styles.page}>
+		<ScrollView style={styles.page}>
 			<ProfileHeader />
 			<ProfilePosts />
-		</View>
+		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
 	page: {
 		flex: 1,
-		justifyContent: 'flex-start',
 	},
 });
