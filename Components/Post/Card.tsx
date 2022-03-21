@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	content: {
-		margin: '1rem',
+		margin: 16,
 	},
 	actions: {
 		flex: 1,

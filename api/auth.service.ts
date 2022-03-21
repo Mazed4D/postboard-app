@@ -24,14 +24,14 @@ const login = async ({ email, password }: loginProps) => {
 		await SecureStore.setItemAsync('userId', res.data.user.userId);
 		return res.data;
 	} catch (error: any) {
-		return { error: error.response };
+		return { error };
 	}
 };
 
-const register = async ({ username: name, email, password }: registerProps) => {
+const register = async ({ username, email, password }: registerProps) => {
 	try {
 		const res = await axios.post(`${process.env.REACT_APP_API}/auth/register`, {
-			name,
+			name: username,
 			email,
 			password,
 		});

@@ -1,5 +1,7 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import React, { useState } from 'react';
+import authServices from '../api/auth.service';
+import * as SecureStore from 'expo-secure-store';
 
 export default function Auth() {
 	const [email, setEmail] = useState('');
@@ -7,7 +9,15 @@ export default function Auth() {
 	const [password, setPassword] = useState('');
 	const [isRegister, setIsRegister] = useState(false);
 
-	const authHandler = () => {};
+	const authHandler = async () => {
+		if (isRegister) {
+			const res = await authServices.register({ username, email, password });
+			console.log(res);
+		} else {
+			const res = await authServices.login({ email, password });
+			console.log(res);
+		}
+	};
 
 	return (
 		<View style={styles.pageContainer}>
@@ -36,9 +46,9 @@ export default function Auth() {
 					onChangeText={(e) => setPassword(e)}
 				/>
 				{isRegister ? (
-					<Button title='Register' onPress={() => console.log('e')} />
+					<Button title='Register' onPress={authHandler} />
 				) : (
-					<Button title='Login' onPress={() => console.log('e')} />
+					<Button title='Login' onPress={authHandler} />
 				)}
 				<Button
 					title={`${isRegister ? 'Already' : `Don't`} have an account?`}
@@ -60,8 +70,8 @@ const styles = StyleSheet.create({
 	},
 	inputContainer: {
 		flex: 5,
-		marginTop: '2rem',
-		maxHeight: '18rem',
+		marginTop: 32,
+		maxHeight: 320,
 		width: '90%',
 		borderRadius: 10,
 		justifyContent: 'space-evenly',
@@ -70,7 +80,7 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		width: '90%',
-		height: `1.5rem`,
+		height: 30,
 		borderRadius: 10,
 		backgroundColor: 'white',
 	},
