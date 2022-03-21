@@ -1,23 +1,34 @@
 import axios from 'axios';
-import { message } from 'antd';
+import * as SecureStore from 'expo-secure-store';
 
-const config = {
-	headers: {
-		Authorization: `Bearer ${localStorage.getItem('token')}`,
-	},
+const config = async () => {
+	const token = await SecureStore.getItemAsync('token');
+	return {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
 };
 
 const headers = {
-	Authorization: `Bearer ${localStorage.getItem('token')}`,
+	Authorization: `Bearer ${SecureStore.getItemAsync('token')}`,
 };
 
-const printPosts = async (
+type printPostsProps = {
+	pageNum: number;
+	setPosts: Function;
+	setNumberOfPosts: Function;
+	followed?: boolean;
+	userId?: string;
+};
+
+const printPosts = async ({
 	pageNum,
 	setPosts,
 	setNumberOfPosts,
 	followed = false,
-	userId
-) => {
+	userId,
+}: printPostsProps) => {
 	let reqString = `${process.env.REACT_APP_API}/posts?page=${pageNum}`;
 	if (followed) {
 		reqString = `${process.env.REACT_APP_API}/posts/followed?page=${pageNum}`;
@@ -26,15 +37,16 @@ const printPosts = async (
 		reqString = `${process.env.REACT_APP_API}/posts/user/${userId}?page=${pageNum}`;
 	}
 	try {
-		const loadPosts = await axios.get(reqString, config);
+		const loadPosts = await axios.get(reqString, await config());
 		setPosts(loadPosts.data.postIds);
 		setNumberOfPosts(loadPosts.data.totalPosts);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error.response);
+		// message.error(
+		// 	`${error.response.data.msg || error.response.data} (${
+		// 		error.response.status
+		// 	})`
+		// );
 	}
 };
 
