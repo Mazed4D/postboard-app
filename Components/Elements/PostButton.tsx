@@ -21,17 +21,14 @@ const PostButton = ({
 		<Pressable
 			onPressIn={() => setPressed(true)}
 			onPressOut={() => setPressed(false)}
-			style={[styles.button, { maxWidth: maxWidth }]}
+			style={[
+				styles.button,
+				{ maxWidth: maxWidth },
+				pressed && { transform: [{ scale: 1.3 }] },
+			]}
 		>
 			{title && <Text style={styles.text}>{title}</Text>}
-			{iconName && (
-				<Feather
-					name={iconName}
-					size={20}
-					color={'#7575FF'}
-					style={pressed && { transform: [{ scale: 1.3 }] }}
-				/>
-			)}
+			{iconName && <Feather name={iconName} size={20} color={'#7575FF'} />}
 		</Pressable>
 	);
 };
@@ -47,7 +44,7 @@ const styles = StyleSheet.create({
 		// borderRadius: 5,
 	},
 	text: {
-		color: '#f8f8ff',
+		color: '#7575FF',
 	},
 });
 
