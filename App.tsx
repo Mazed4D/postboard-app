@@ -7,6 +7,7 @@ import Auth from './Screens/Auth';
 import Profile from './Screens/Profile';
 import Followed from './Screens/Followed';
 import { Feather } from '@expo/vector-icons/';
+import AddPost from './Screens/AddPost';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,9 @@ export default function App() {
 							case 'Auth':
 								iconName = 'log-in';
 								break;
+							case 'Add Post':
+								iconName = 'plus';
+								break;
 							case 'Followed':
 								iconName = 'users';
 								break;
@@ -42,6 +46,7 @@ export default function App() {
 			>
 				<Tab.Screen name='Home' component={Home} />
 				<Tab.Screen name='Followed' component={Followed} />
+				<Tab.Screen name='Add Post' component={AddPost} />
 				<Tab.Screen name='Profile' component={Profile} />
 				<Tab.Screen name='Auth' component={Auth} />
 			</Tab.Navigator>
