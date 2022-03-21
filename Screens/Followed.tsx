@@ -1,11 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import React from 'react';
+import Card from '../Components/Post/Card';
 
 export default function Followed() {
 	return (
-		<View>
-			<Text>Followed</Text>
-		</View>
+		<ScrollView>
+			<Card />
+			<Card />
+			<Card />
+			<Card />
+		</ScrollView>
 	);
 }
 
