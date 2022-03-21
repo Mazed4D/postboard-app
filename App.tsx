@@ -8,48 +8,62 @@ import Profile from './Screens/Profile';
 import Followed from './Screens/Followed';
 import { Feather } from '@expo/vector-icons/';
 import AddPost from './Screens/AddPost';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+	const [token, setToken] = useState<any>();
+
+	useEffect(() => {
+		const checkToken = async () => {
+			const token = await SecureStore.getItemAsync('token');
+			setToken(await token);
+		};
+		checkToken();
+	});
+
 	return (
 		<NavigationContainer>
-			<Tab.Navigator
-				initialRouteName='Home'
-				screenOptions={({ route }) => ({
-					tabBarIcon: ({ color, size }) => {
-						let iconName: keyof typeof Feather.glyphMap = 'home';
+			{token && (
+				<Tab.Navigator
+					initialRouteName='Home'
+					screenOptions={({ route }) => ({
+						tabBarIcon: ({ color, size }) => {
+							let iconName: keyof typeof Feather.glyphMap = 'home';
 
-						switch (route.name) {
-							case 'Home':
-								iconName = 'home';
-								break;
-							case 'Auth':
-								iconName = 'log-in';
-								break;
-							case 'Add Post':
-								iconName = 'plus';
-								break;
-							case 'Followed':
-								iconName = 'users';
-								break;
-							case 'Profile':
-								iconName = 'user';
-								break;
-						}
+							switch (route.name) {
+								case 'Home':
+									iconName = 'home';
+									break;
+								case 'Auth':
+									iconName = 'log-in';
+									break;
+								case 'Add Post':
+									iconName = 'plus';
+									break;
+								case 'Followed':
+									iconName = 'users';
+									break;
+								case 'Profile':
+									iconName = 'user';
+									break;
+							}
 
-						return <Feather name={iconName} size={size} color={color} />;
-					},
-					tabBarActiveTintColor: '#7575FF',
-					tabBarInactiveTintColor: 'gray',
-				})}
-			>
-				<Tab.Screen name='Home' component={Home} />
-				<Tab.Screen name='Followed' component={Followed} />
-				<Tab.Screen name='Add Post' component={AddPost} />
-				<Tab.Screen name='Profile' component={Profile} />
-				<Tab.Screen name='Auth' component={Auth} />
-			</Tab.Navigator>
+							return <Feather name={iconName} size={size} color={color} />;
+						},
+						tabBarActiveTintColor: '#7575FF',
+						tabBarInactiveTintColor: 'gray',
+					})}
+				>
+					<Tab.Screen name='Home' component={Home} />
+					<Tab.Screen name='Followed' component={Followed} />
+					<Tab.Screen name='Add Post' component={AddPost} />
+					<Tab.Screen name='Profile' component={Profile} />
+					<Tab.Screen name='Auth' component={Auth} />
+				</Tab.Navigator>
+			)}
 		</NavigationContainer>
 	);
 }
