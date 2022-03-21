@@ -2,10 +2,16 @@ import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import React from 'react';
 import PostButton from '../Elements/PostButton';
 
-const Card = () => {
+type cardProps = {
+	postId?: any;
+};
+
+const Card = ({ postId }: cardProps) => {
 	const tempFunc = () => {
 		console.log('done');
 	};
+
+	console.log(postId);
 
 	return (
 		<View style={styles.cardContainer}>
