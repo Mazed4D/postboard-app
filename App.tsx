@@ -40,7 +40,7 @@ export default function App() {
 
 						return <Feather name={iconName} size={size} color={color} />;
 					},
-					tabBarActiveTintColor: '#1e81b0',
+					tabBarActiveTintColor: '#7575FF',
 					tabBarInactiveTintColor: 'gray',
 				})}
 			>
