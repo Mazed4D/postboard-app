@@ -41,54 +41,58 @@ const printPosts = async ({
 		setPosts(loadPosts.data.postIds);
 		setNumberOfPosts(loadPosts.data.totalPosts);
 	} catch (error) {
-		console.log(error.response);
-		// message.error(
-		// 	`${error.response.data.msg || error.response.data} (${
-		// 		error.response.status
-		// 	})`
-		// );
+		console.log(error);
 	}
 };
 
-const sendPost = async (text, navigate) => {
+type sendPostProps = {
+	text: string;
+	navigate: Function;
+};
+
+const sendPost = async ({ text, navigate }: sendPostProps) => {
 	try {
 		await axios.post(
 			`${process.env.REACT_APP_API}/posts`,
 			{
 				text,
 			},
-			config
+			await config()
 		);
 		navigate(0);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const editPost = async (text, postId, navigate) => {
+type editPostProps = {
+	text: string;
+	postId: string;
+	navigate: Function;
+};
+
+const editPost = async ({ text, postId, navigate }: editPostProps) => {
 	try {
 		await axios.patch(
 			`${process.env.REACT_APP_API}/posts/${postId}`,
 			{
 				text,
 			},
-			config
+			await config()
 		);
 		navigate(0);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const addComment = async (postId, text, navigate) => {
+type addCommentProps = {
+	postId: string;
+	text: string;
+	navigate: Function;
+};
+
+const addComment = async ({ postId, text, navigate }: addCommentProps) => {
 	try {
 		await axios.post(
 			`${process.env.REACT_APP_API}/comments/post/${postId}`,
@@ -99,23 +103,29 @@ const addComment = async (postId, text, navigate) => {
 		);
 		navigate(0);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const fetchUserName = async (userId, setName) => {
+type fetchUserNameProps = {
+	userId: string;
+	setName: Function;
+};
+
+const fetchUserName = async ({ userId, setName }: fetchUserNameProps) => {
 	const user = await axios.get(
 		`${process.env.REACT_APP_API}/users/${userId}`,
-		config
+		await config()
 	);
 	setName(user.data.name);
 };
 
-const fetchImage = async (userId, setAvatar) => {
+type fetchImageProps = {
+	userId: string;
+	setAvatar: Function;
+};
+
+const fetchImage = async ({ userId, setAvatar }: fetchImageProps) => {
 	const img = await axios.get(
 		`${process.env.REACT_APP_API}/upload/user/${userId}`,
 		{ headers: headers }
@@ -123,7 +133,12 @@ const fetchImage = async (userId, setAvatar) => {
 	setAvatar(`${process.env.REACT_APP_SERVER}/uploads/${img.data.url}`);
 };
 
-const fetchComments = async (postId, setComments) => {
+type fetchCommentsProps = {
+	postId: string;
+	setComments: Function;
+};
+
+const fetchComments = async ({ postId, setComments }: fetchCommentsProps) => {
 	const fetchedComments = await axios.get(
 		`${process.env.REACT_APP_API}/comments/post/${postId}`
 	);
@@ -134,10 +149,15 @@ const fetchComments = async (postId, setComments) => {
 
 //// Post Card Functions
 
-const loadPost = async (id, setPostData) => {
+type loadPostProps = {
+	id: string;
+	setPostData: Function;
+};
+
+const loadPost = async ({ id, setPostData }: loadPostProps) => {
 	const resPost = await axios.get(
 		`${process.env.REACT_APP_API}/posts/${id}`,
-		config
+		await config()
 	);
 	const data = await resPost.data;
 	setPostData(() => {
@@ -145,13 +165,25 @@ const loadPost = async (id, setPostData) => {
 	});
 };
 
-const loadLikes = async (id, userId, setLiked, setLikeNumber) => {
+type loadLikesProps = {
+	id: string;
+	userId: string;
+	setLiked: Function;
+	setLikeNumber: Function;
+};
+
+const loadLikes = async ({
+	id,
+	userId,
+	setLiked,
+	setLikeNumber,
+}: loadLikesProps) => {
 	const resLikes = await axios.get(
 		`${process.env.REACT_APP_API}/likes/${id}`,
-		config
+		await config()
 	);
 	// CHECK IF POST IS LIKED
-	const isLiked = resLikes.data.find((like) => {
+	const isLiked = resLikes.data.find((like: any) => {
 		return like.user === userId;
 	});
 	if (isLiked) {
@@ -160,7 +192,12 @@ const loadLikes = async (id, userId, setLiked, setLikeNumber) => {
 	setLikeNumber(resLikes.data.length);
 };
 
-const fetchPostImage = async (postData, setAvatar) => {
+type fetchPostImageProps = {
+	postData: Object;
+	setAvatar: Function;
+};
+
+const fetchPostImage = async ({ postData, setAvatar }: fetchPostImageProps) => {
 	const img = await axios.get(
 		`${process.env.REACT_APP_API}/upload/user/${postData.user}`,
 		config
