@@ -1,9 +1,13 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import React, { useState } from 'react';
 import authServices from '../api/auth.service';
-import * as SecureStore from 'expo-secure-store';
 
-export default function Auth() {
+type AuthProps = {
+	setReload: any;
+	reload: boolean;
+};
+
+export default function Auth({ setReload, reload }: AuthProps) {
 	const [email, setEmail] = useState<string>('');
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -17,6 +21,7 @@ export default function Auth() {
 			const res = await authServices.login({ email, password });
 			console.log(res);
 		}
+		setReload(!reload);
 	};
 
 	return (

@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
 	const [token, setToken] = useState<any>();
+	const [reload, setReload] = useState<boolean>(false);
 
 	useEffect(() => {
 		const checkToken = async () => {
@@ -22,7 +23,7 @@ export default function App() {
 			setToken(await token);
 		};
 		checkToken();
-	});
+	}, [token, reload]);
 
 	return (
 		<NavigationContainer>
@@ -60,8 +61,16 @@ export default function App() {
 					<Tab.Screen name='Home' component={Home} />
 					<Tab.Screen name='Followed' component={Followed} />
 					<Tab.Screen name='Add Post' component={AddPost} />
-					<Tab.Screen name='Profile' component={Profile} />
-					<Tab.Screen name='Auth' component={Auth} />
+					<Tab.Screen name='Profile'>
+						{() => <Profile setReload={setReload} reload={reload} />}
+					</Tab.Screen>
+				</Tab.Navigator>
+			)}
+			{!token && (
+				<Tab.Navigator initialRouteName='Auth'>
+					<Tab.Screen name='Auth'>
+						{() => <Auth setReload={setReload} reload={reload} />}
+					</Tab.Screen>
 				</Tab.Navigator>
 			)}
 		</NavigationContainer>

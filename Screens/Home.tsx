@@ -13,12 +13,11 @@ export const Home = () => {
 		const fetchUsers = async () => {
 			try {
 				const userId = await SecureStore.getItemAsync('token');
-				await apiServices.printPosts(
+				await apiServices.printPosts({
 					pageNum,
 					setPosts,
 					setNumberOfPosts,
-					false
-				);
+				});
 			} catch (error) {
 				console.log(error);
 			}
@@ -32,7 +31,7 @@ export const Home = () => {
 				<FlatList
 					data={posts}
 					renderItem={(post) => {
-						return <Card postId={post} />;
+						return <Card postId={post.item} key={post.item} />;
 					}}
 				/>
 			)}

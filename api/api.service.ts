@@ -16,10 +16,10 @@ const headers = {
 
 type printPostsProps = {
 	pageNum: number;
-	setPosts: Function;
-	setNumberOfPosts: Function;
+	setPosts: any;
+	setNumberOfPosts: any;
 	followed?: boolean;
-	userId?: string;
+	userId?: string | null;
 };
 
 const printPosts = async ({
