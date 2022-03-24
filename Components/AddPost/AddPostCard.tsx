@@ -8,6 +8,7 @@ const AddPostCard = ({ navigation }: { navigation: any }) => {
 
 	const submitPostHandler = () => {
 		const { navigate } = navigation;
+		setText('');
 		apiServices.sendPost({ text, navigate });
 	};
 
