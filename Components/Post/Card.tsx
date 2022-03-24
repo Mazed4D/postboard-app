@@ -1,45 +1,73 @@
 import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import React from 'react';
 import PostButton from '../Elements/PostButton';
+import { useEffect, useState } from 'react';
+import apiServices from '../../api/api.service';
 
 type cardProps = {
-	postId?: any;
+	postId: string;
+	userId: string;
 };
 
-const Card = ({ postId }: cardProps) => {
+const Card = ({ postId, userId }: cardProps) => {
+	const [postData, setPostData] = useState<any>();
+	const [avatar, setAvatar] = useState<any>('https://picsum.photos/50/50.jpg');
+	const [likeNumber, setLikeNumber] = useState<any>(0);
+	const [liked, setLiked] = useState<any>(false);
+
+	useEffect(() => {
+		const fetchPostdata = async () => {
+			await apiServices.loadPost({ postId, setPostData });
+		};
+		const fetchImage = async () => {
+			await apiServices.fetchPostImage({ postData, setAvatar });
+		};
+		const fetchLikes = async () => {
+			const id = postData._id;
+			await apiServices.loadLikes({ id, userId, setLiked, setLikeNumber });
+		};
+		if (!postData) {
+			fetchPostdata();
+		} else {
+			fetchImage();
+			fetchLikes();
+		}
+	}, [postData]);
+
 	const tempFunc = () => {
 		console.log('done');
 	};
-
-	console.log(postId);
 
 	return (
 		<View style={styles.cardContainer}>
 			<View style={styles.meta}>
 				<Image
-					source={{ uri: 'https://picsum.photos/50/50.jpg' }}
+					source={{ uri: avatar }}
 					style={{ width: 50, height: 50, borderRadius: 30 }}
 				/>
-				<Text>[User name]</Text>
+				<Text>{postData ? postData.name : 'Loading...'}</Text>
 				<PostButton title='Follow' onPress={tempFunc} />
 			</View>
 			<View style={styles.content}>
-				<Text>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus
-					deleniti aliquam placeat natus iste velit eveniet illo architecto
-					tempore corrupti officiis consequatur temporibus, debitis soluta et
-					eos pariatur beatae quam.
-				</Text>
+				<Text>{postData ? postData.text : 'Loading...'}</Text>
 			</View>
 			<View style={styles.actions}>
-				<PostButton title='Like' onPress={tempFunc} iconName='thumbs-up' />
+				<PostButton
+					title={`${likeNumber}`}
+					onPress={tempFunc}
+					iconName='thumbs-up'
+				/>
 				<PostButton
 					title='Comment'
 					onPress={tempFunc}
 					iconName='message-square'
 				/>
-				<PostButton title='Edit' onPress={tempFunc} iconName='edit-3' />
-				<PostButton title='Delete' onPress={tempFunc} iconName='trash' />
+				{postData !== undefined && userId === postData.user && (
+					<>
+						<PostButton title='Edit' onPress={tempFunc} iconName='edit-3' />
+						<PostButton title='Delete' onPress={tempFunc} iconName='trash' />
+					</>
+				)}
 			</View>
 		</View>
 	);

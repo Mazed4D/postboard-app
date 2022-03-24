@@ -4,7 +4,7 @@ import Card from '../Components/Post/Card';
 import apiServices from '../api/api.service';
 import * as SecureStore from 'expo-secure-store';
 
-export const Home = () => {
+export const Home = ({ userId }: { userId: string }) => {
 	const [posts, setPosts] = useState<Array<string>>([]);
 	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
 	const [pageNum, setPageNum] = useState<number>(1);
@@ -31,7 +31,7 @@ export const Home = () => {
 				<FlatList
 					data={posts}
 					renderItem={(post) => {
-						return <Card postId={post.item} key={post.item} />;
+						return <Card postId={post.item} key={post.item} userId={userId} />;
 					}}
 				/>
 			)}

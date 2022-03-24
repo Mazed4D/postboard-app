@@ -6,14 +6,16 @@ import ProfilePosts from '../Components/Profile/ProfilePosts';
 export default function Profile({
 	setReload,
 	reload,
+	userId,
 }: {
 	setReload: any;
 	reload: boolean;
+	userId: string;
 }) {
 	return (
 		<View style={styles.page}>
-			<ProfileHeader setReload={setReload} reload={reload} />
-			<ProfilePosts />
+			<ProfileHeader setReload={setReload} reload={reload} userId={userId} />
+			<ProfilePosts userId={userId} />
 		</View>
 	);
 }

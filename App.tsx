@@ -15,12 +15,15 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
 	const [token, setToken] = useState<any>();
+	const [userId, setUserId] = useState<any>();
 	const [reload, setReload] = useState<boolean>(false);
 
 	useEffect(() => {
 		const checkToken = async () => {
 			const token = await SecureStore.getItemAsync('token');
+			const userId = await SecureStore.getItemAsync('userId');
 			setToken(await token);
+			setUserId(await userId);
 		};
 		checkToken();
 	}, [token, reload]);
@@ -58,11 +61,15 @@ export default function App() {
 						tabBarInactiveTintColor: 'gray',
 					})}
 				>
-					<Tab.Screen name='Home' component={Home} />
-					<Tab.Screen name='Followed' component={Followed} />
+					<Tab.Screen name='Home'>{() => <Home userId={userId} />}</Tab.Screen>
+					<Tab.Screen name='Followed'>
+						{() => <Followed userId={userId} />}
+					</Tab.Screen>
 					<Tab.Screen name='Add Post' component={AddPost} />
 					<Tab.Screen name='Profile'>
-						{() => <Profile setReload={setReload} reload={reload} />}
+						{() => (
+							<Profile setReload={setReload} reload={reload} userId={userId} />
+						)}
 					</Tab.Screen>
 				</Tab.Navigator>
 			)}

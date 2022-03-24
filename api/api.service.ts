@@ -124,7 +124,6 @@ type fetchImageProps = {
 	userId: string;
 	setAvatar: Function;
 };
-
 const fetchImage = async ({ userId, setAvatar }: fetchImageProps) => {
 	const img = await axios.get(
 		`${process.env.REACT_APP_API}/upload/user/${userId}`,
@@ -150,13 +149,13 @@ const fetchComments = async ({ postId, setComments }: fetchCommentsProps) => {
 //// Post Card Functions
 
 type loadPostProps = {
-	id: string;
+	postId: string;
 	setPostData: Function;
 };
 
-const loadPost = async ({ id, setPostData }: loadPostProps) => {
+const loadPost = async ({ postId, setPostData }: loadPostProps) => {
 	const resPost = await axios.get(
-		`${process.env.REACT_APP_API}/posts/${id}`,
+		`${process.env.REACT_APP_API}/posts/${postId}`,
 		await config()
 	);
 	const data = await resPost.data;
