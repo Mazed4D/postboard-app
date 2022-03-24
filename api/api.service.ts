@@ -99,7 +99,7 @@ const addComment = async ({ postId, text, navigate }: addCommentProps) => {
 			{
 				text,
 			},
-			config
+			await config()
 		);
 		navigate(0);
 	} catch (error) {
@@ -193,47 +193,59 @@ const loadLikes = async ({
 };
 
 type fetchPostImageProps = {
-	postData: Object;
+	postData: { user: string };
 	setAvatar: Function;
 };
 
 const fetchPostImage = async ({ postData, setAvatar }: fetchPostImageProps) => {
 	const img = await axios.get(
 		`${process.env.REACT_APP_API}/upload/user/${postData.user}`,
-		config
+		await config()
 	);
 	setAvatar(`${process.env.REACT_APP_SERVER}/uploads/${img.data.url}`);
 };
 
-const fetchFollowed = async (postData, setIsFollowed) => {
+type fetchFollowedProps = {
+	postData: { user: string };
+	setIsFollowed: Function;
+};
+
+const fetchFollowed = async ({
+	postData,
+	setIsFollowed,
+}: fetchFollowedProps) => {
 	try {
 		const isFollowed = await axios.get(
 			`${process.env.REACT_APP_API}/follow/${postData.user}`,
-			config
+			await config()
 		);
 		setIsFollowed(isFollowed.data.isFollowed);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const toggleLike = async (
+type toggleLikeProps = {
+	id: string;
+	setLikeSpin: Function;
+	setLikeNumber: Function;
+	likeNumber: number;
+	setLiked: Function;
+};
+
+const toggleLike = async ({
 	id,
 	setLikeSpin,
 	setLikeNumber,
 	likeNumber,
-	setLiked
-) => {
+	setLiked,
+}: toggleLikeProps) => {
 	try {
 		setLikeSpin(true);
 		const toggleLike = await axios.post(
 			`${process.env.REACT_APP_API}/likes/toggle/${id}`,
 			{},
-			config
+			await config()
 		);
 		if (toggleLike.status === 200) {
 			setLikeNumber(likeNumber + 1);
@@ -244,92 +256,92 @@ const toggleLike = async (
 		}
 		setLikeSpin(false);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const follow = async (postData) => {
+const follow = async (postData: { user: string }) => {
 	try {
 		await axios.post(
 			`${process.env.REACT_APP_API}/follow/${postData.user}`,
 			{},
-			config
+			await config()
 		);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data || error.response} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const deleteComment = async (commentId, navigate) => {
+type deleteCommentProps = {
+	commentId: string;
+	navigate: Function;
+};
+
+const deleteComment = async ({ commentId, navigate }: deleteCommentProps) => {
 	try {
 		await axios.delete(
 			`${process.env.REACT_APP_API}/comments/${commentId}`,
-			config
+			await config()
 		);
 		navigate(0);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const deletePost = async (postId) => {
+const deletePost = async (postId: string) => {
 	try {
-		await axios.delete(`${process.env.REACT_APP_API}/posts/${postId}`, config);
+		await axios.delete(
+			`${process.env.REACT_APP_API}/posts/${postId}`,
+			await config()
+		);
 		return true;
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const editComment = async (commentId, text, navigate) => {
+type editCommentProps = {
+	commentId: string;
+	text: string;
+	navigate: Function;
+};
+
+const editComment = async ({ commentId, text, navigate }: editCommentProps) => {
 	try {
 		await axios.patch(
 			`${process.env.REACT_APP_API}/comments/${commentId}`,
 			{
 				text,
 			},
-			config
+			await config()
 		);
 		navigate(0);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
-const fetchFollowCount = async (userId, setFollowsCount, setFollowerCount) => {
+type fetchFollowCountProps = {
+	userId: string;
+	setFollowsCount: Function;
+	setFollowerCount: Function;
+};
+
+const fetchFollowCount = async ({
+	userId,
+	setFollowsCount,
+	setFollowerCount,
+}: fetchFollowCountProps) => {
 	try {
 		const followObj = await axios.get(
 			`${process.env.REACT_APP_API}/follow/${userId}/followCount`,
-			config
+			await config()
 		);
 		setFollowsCount(followObj.data.followsCount);
 		setFollowerCount(followObj.data.followerCount);
 	} catch (error) {
-		message.error(
-			`${error.response.data.msg || error.response.data} (${
-				error.response.status
-			})`
-		);
+		console.log(error);
 	}
 };
 
