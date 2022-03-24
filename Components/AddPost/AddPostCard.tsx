@@ -1,11 +1,14 @@
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
+import apiServices from '../../api/api.service';
 
-const AddPostCard = () => {
+const AddPostCard = ({ navigation }: { navigation: any }) => {
 	const [text, setText] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	const submitPostHandler = () => {
-		console.log('done');
+		const { navigate } = navigation;
+		apiServices.sendPost({ text, navigate });
 	};
 
 	return (

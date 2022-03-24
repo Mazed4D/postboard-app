@@ -47,7 +47,7 @@ const printPosts = async ({
 
 type sendPostProps = {
 	text: string;
-	navigate: Function;
+	navigate: any;
 };
 
 const sendPost = async ({ text, navigate }: sendPostProps) => {
@@ -59,7 +59,7 @@ const sendPost = async ({ text, navigate }: sendPostProps) => {
 			},
 			await config()
 		);
-		navigate(0);
+		navigate('Home');
 	} catch (error) {
 		console.log(error);
 	}

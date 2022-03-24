@@ -3,11 +3,13 @@ import React from 'react';
 import Card from '../Post/Card';
 import { useEffect, useState } from 'react';
 import apiServices from '../../api/api.service';
+import { useIsFocused } from '@react-navigation/native';
 
 const ProfilePosts = ({ userId }: { userId: string }) => {
 	const [posts, setPosts] = useState<Array<string>>([]);
 	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
 	const [pageNum, setPageNum] = useState<number>(1);
+	const isFocused = useIsFocused();
 
 	useEffect(() => {
 		const fetchUsers = async () => {
@@ -23,7 +25,7 @@ const ProfilePosts = ({ userId }: { userId: string }) => {
 			}
 		};
 		fetchUsers();
-	}, [pageNum]);
+	}, [pageNum, isFocused]);
 
 	return (
 		<>

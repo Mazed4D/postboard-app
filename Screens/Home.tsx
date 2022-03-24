@@ -3,16 +3,17 @@ import React, { useEffect, useState } from 'react';
 import Card from '../Components/Post/Card';
 import apiServices from '../api/api.service';
 import * as SecureStore from 'expo-secure-store';
+import { useIsFocused } from '@react-navigation/native';
 
 export const Home = ({ userId }: { userId: string }) => {
 	const [posts, setPosts] = useState<Array<string>>([]);
 	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
 	const [pageNum, setPageNum] = useState<number>(1);
+	const isFocused = useIsFocused();
 
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
-				const userId = await SecureStore.getItemAsync('token');
 				await apiServices.printPosts({
 					pageNum,
 					setPosts,
@@ -23,7 +24,7 @@ export const Home = ({ userId }: { userId: string }) => {
 			}
 		};
 		fetchUsers();
-	}, [pageNum]);
+	}, [pageNum, isFocused]);
 
 	return (
 		<>
