@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons/';
 
 type buttonProps = {
 	title?: string;
-	onPress: Function;
+	onPress: any;
 	maxWidth?: string;
 	iconName?: keyof typeof Feather.glyphMap;
 };
@@ -21,6 +21,7 @@ const PostButton = ({
 		<Pressable
 			onPressIn={() => setPressed(true)}
 			onPressOut={() => setPressed(false)}
+			onPress={onPress}
 			style={[
 				styles.button,
 				{ maxWidth: maxWidth },

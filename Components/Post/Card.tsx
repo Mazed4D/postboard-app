@@ -3,17 +3,20 @@ import React from 'react';
 import PostButton from '../Elements/PostButton';
 import { useEffect, useState } from 'react';
 import apiServices from '../../api/api.service';
+import { useNavigation } from '@react-navigation/native';
 
 type cardProps = {
 	postId: string;
 	userId: string;
+	isPostScreen?: boolean;
 };
 
-const Card = ({ postId, userId }: cardProps) => {
+const Card = ({ postId, userId, isPostScreen = false }: cardProps) => {
 	const [postData, setPostData] = useState<any>();
 	const [avatar, setAvatar] = useState<any>('https://picsum.photos/50/50.jpg');
 	const [likeNumber, setLikeNumber] = useState<any>(0);
 	const [liked, setLiked] = useState<any>(false);
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		const fetchPostdata = async () => {
@@ -38,6 +41,10 @@ const Card = ({ postId, userId }: cardProps) => {
 		console.log('done');
 	};
 
+	const openPostScreen = () => {
+		navigation.navigate('Post' as never, { userId, postId } as never);
+	};
+
 	return (
 		<View style={styles.cardContainer}>
 			<View style={styles.meta}>
@@ -57,11 +64,13 @@ const Card = ({ postId, userId }: cardProps) => {
 					onPress={tempFunc}
 					iconName='thumbs-up'
 				/>
-				<PostButton
-					title='Comment'
-					onPress={tempFunc}
-					iconName='message-square'
-				/>
+				{!isPostScreen && (
+					<PostButton
+						title='Comment'
+						onPress={openPostScreen}
+						iconName='message-square'
+					/>
+				)}
 				{postData !== undefined && userId === postData.user && (
 					<>
 						<PostButton title='Edit' onPress={tempFunc} iconName='edit-3' />
@@ -79,6 +88,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#f8f8ff',
 		flex: 1,
 		justifyContent: 'center',
+		flexGrow: 1,
 	},
 	meta: {
 		flex: 1,

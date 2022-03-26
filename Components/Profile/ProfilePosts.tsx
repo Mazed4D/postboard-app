@@ -4,8 +4,17 @@ import Card from '../Post/Card';
 import { useEffect, useState } from 'react';
 import apiServices from '../../api/api.service';
 import { useIsFocused } from '@react-navigation/native';
+import ProfileHeader from './ProfileHeader';
 
-const ProfilePosts = ({ userId }: { userId: string }) => {
+const ProfilePosts = ({
+	userId,
+	setReload,
+	reload,
+}: {
+	userId: string;
+	setReload: any;
+	reload: any;
+}) => {
 	const [posts, setPosts] = useState<Array<string>>([]);
 	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
 	const [pageNum, setPageNum] = useState<number>(1);
@@ -35,6 +44,13 @@ const ProfilePosts = ({ userId }: { userId: string }) => {
 					renderItem={(post) => {
 						return <Card postId={post.item} key={post.item} userId={userId} />;
 					}}
+					ListHeaderComponent={
+						<ProfileHeader
+							setReload={setReload}
+							reload={reload}
+							userId={userId}
+						/>
+					}
 				/>
 			)}
 		</>
