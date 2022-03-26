@@ -10,6 +10,24 @@ import { Feather } from '@expo/vector-icons/';
 import AddPost from './Screens/AddPost';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Post from './Screens/Post';
+
+const HomeStack = createNativeStackNavigator();
+
+const HomeStackScreen = ({ userId }: { userId: string }) => {
+	return (
+		<HomeStack.Navigator
+			initialRouteName='Public'
+			screenOptions={{ headerShown: false }}
+		>
+			<HomeStack.Screen name='Public'>
+				{() => <Home userId={userId} />}
+			</HomeStack.Screen>
+			<HomeStack.Screen name='Post' component={Post} />
+		</HomeStack.Navigator>
+	);
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -61,7 +79,9 @@ export default function App() {
 						tabBarInactiveTintColor: 'gray',
 					})}
 				>
-					<Tab.Screen name='Home'>{() => <Home userId={userId} />}</Tab.Screen>
+					<Tab.Screen name='Home'>
+						{() => <HomeStackScreen userId={userId} />}
+					</Tab.Screen>
 					<Tab.Screen name='Followed'>
 						{() => <Followed userId={userId} />}
 					</Tab.Screen>

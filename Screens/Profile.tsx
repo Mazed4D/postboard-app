@@ -14,8 +14,7 @@ export default function Profile({
 }) {
 	return (
 		<View style={styles.page}>
-			<ProfileHeader setReload={setReload} reload={reload} userId={userId} />
-			<ProfilePosts userId={userId} />
+			<ProfilePosts userId={userId} setReload={setReload} reload={reload} />
 		</View>
 	);
 }
