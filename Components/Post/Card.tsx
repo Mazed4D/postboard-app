@@ -79,18 +79,17 @@ const Card = ({ postId, userId, isPostScreen = false }: cardProps) => {
 				visible={visible}
 				onRequestClose={() => setVisible(false)}
 			>
-				<AddPostCard
-					navigation={navigation}
-					edit={true}
-					editText={postData.text}
-				/>
+				{postData && (
+					<AddPostCard
+						navigation={navigation}
+						edit={true}
+						editText={postData.text}
+					/>
+				)}
 			</Modal>
 			<View style={styles.meta}>
 				{avatar !== 'user' && (
-					<Image
-						source={{ uri: avatar }}
-						style={{ width: 50, height: 50, borderRadius: 30 }}
-					/>
+					<Image source={{ uri: avatar }} style={styles.image} />
 				)}
 				{avatar === 'user' && <Feather name={'user'} size={50} color='blue' />}
 				<Text>{postData ? postData.name : 'Loading...'}</Text>
@@ -153,6 +152,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-around',
+	},
+	image: {
+		width: 55,
+		height: 55,
+		borderRadius: 30,
+		borderWidth: 2,
+		borderColor: '#7575FF',
 	},
 });
 
