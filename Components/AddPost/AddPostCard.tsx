@@ -2,8 +2,16 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import apiServices from '../../api/api.service';
 
-const AddPostCard = ({ navigation }: { navigation: any }) => {
-	const [text, setText] = useState('');
+const AddPostCard = ({
+	navigation,
+	edit = false,
+	editText = '',
+}: {
+	navigation: any;
+	edit?: boolean;
+	editText?: string;
+}) => {
+	const [text, setText] = useState(editText);
 	const [loading, setLoading] = useState(false);
 
 	const submitPostHandler = () => {
@@ -14,7 +22,7 @@ const AddPostCard = ({ navigation }: { navigation: any }) => {
 
 	return (
 		<View style={styles.addPostCard}>
-			<Text style={{ fontSize: 20 }}>Add post</Text>
+			<Text style={{ fontSize: 20 }}>{edit ? 'Edit post' : 'Add post'}</Text>
 			<TextInput
 				style={styles.text}
 				multiline={true}
@@ -33,6 +41,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		padding: 20,
+		backgroundColor: 'white',
 		// alignItems: 'center',
 	},
 	text: {

@@ -2,8 +2,6 @@ import { FlatList, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Card from '../Components/Post/Card';
 import apiServices from '../api/api.service';
-import * as SecureStore from 'expo-secure-store';
-import { useIsFocused } from '@react-navigation/native';
 
 export const Home = ({ userId }: { userId: string }) => {
 	const [posts, setPosts] = useState<Array<string>>([]);
@@ -12,7 +10,6 @@ export const Home = ({ userId }: { userId: string }) => {
 	const [maxPage, setMaxPage] = useState<number>(1);
 	const [pageNum, setPageNum] = useState<number>(1);
 	const [refreshing, setRefreshing] = useState<boolean>(false);
-	const isFocused = useIsFocused();
 
 	useEffect(() => {
 		const fetchUsers = async () => {
@@ -28,7 +25,7 @@ export const Home = ({ userId }: { userId: string }) => {
 		};
 		fetchUsers();
 		setRefreshing(false);
-	}, [isFocused, refreshing]);
+	}, [refreshing]);
 
 	useEffect(() => {
 		setMaxPage(Math.ceil(numberOfPosts / 4));
