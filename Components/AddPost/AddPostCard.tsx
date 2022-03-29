@@ -5,11 +5,15 @@ import apiServices from '../../api/api.service';
 const AddPostCard = ({
 	navigation,
 	edit = false,
+	closeModal,
 	editText = '',
+	editPostId = '',
 }: {
 	navigation: any;
 	edit?: boolean;
+	closeModal: any;
 	editText?: string;
+	editPostId?: string;
 }) => {
 	const [text, setText] = useState(editText);
 	const [loading, setLoading] = useState(false);
@@ -17,7 +21,12 @@ const AddPostCard = ({
 	const submitPostHandler = () => {
 		const { navigate } = navigation;
 		setText('');
-		apiServices.sendPost({ text, navigate });
+		if (edit) {
+			apiServices.editPost({ text: text, postId: editPostId, navigate });
+		} else {
+			apiServices.sendPost({ text, navigate });
+		}
+		closeModal();
 	};
 
 	return (

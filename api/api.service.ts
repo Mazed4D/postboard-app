@@ -80,7 +80,8 @@ const editPost = async ({ text, postId, navigate }: editPostProps) => {
 			},
 			await config()
 		);
-		navigate(0);
+		const userId = await SecureStore.getItemAsync('userId');
+		navigate('Post', { postId, userId });
 	} catch (error) {
 		console.log(error);
 	}

@@ -84,6 +84,8 @@ const Card = ({ postId, userId, isPostScreen = false }: cardProps) => {
 						navigation={navigation}
 						edit={true}
 						editText={postData.text}
+						editPostId={postId}
+						closeModal={() => setVisible(false)}
 					/>
 				)}
 			</Modal>

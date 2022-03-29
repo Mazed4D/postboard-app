@@ -81,7 +81,10 @@ const Followed = ({ userId }: { userId: string }) => {
 				visible={visible}
 				onRequestClose={() => setVisible(false)}
 			>
-				<AddPostCard navigation={navigation} />
+				<AddPostCard
+					navigation={navigation}
+					closeModal={() => setVisible(false)}
+				/>
 			</Modal>
 			<AddPostButton onPress={() => setVisible(true)} />
 		</>
