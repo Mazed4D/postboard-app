@@ -6,14 +6,16 @@ import apiServices from '../../api/api.service';
 import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons/';
 import AddPostCard from '../AddPost/AddPostCard';
+import DeleteConfirm from '../Elements/DeleteConfirm';
 
 type cardProps = {
 	postId: string;
 	userId: string;
 	isPostScreen?: boolean;
+	reload: any;
 };
 
-const Card = ({ postId, userId, isPostScreen = false }: cardProps) => {
+const Card = ({ postId, userId, isPostScreen = false, reload }: cardProps) => {
 	const [postData, setPostData] = useState<any>();
 	const [avatar, setAvatar] = useState<string>('user');
 	const [likeNumber, setLikeNumber] = useState<any>(0);
@@ -21,6 +23,7 @@ const Card = ({ postId, userId, isPostScreen = false }: cardProps) => {
 	const [likeSpin, setLikeSpin] = useState(false);
 	const [isFollowed, setIsFollowed] = useState(false);
 	const [visible, setVisible] = useState(false);
+	const [visibleDelete, setVisibleDelete] = useState(false);
 	const navigation = useNavigation();
 
 	useEffect(() => {
@@ -62,10 +65,10 @@ const Card = ({ postId, userId, isPostScreen = false }: cardProps) => {
 		navigation.navigate('Post' as never, { userId, postId } as never);
 	};
 
-	const tempFunc = () => {};
-
 	const confirmDelete = () => {
 		apiServices.deletePost(postId);
+		setVisibleDelete(false);
+		reload();
 	};
 
 	const editHandler = () => {
@@ -86,6 +89,18 @@ const Card = ({ postId, userId, isPostScreen = false }: cardProps) => {
 						editText={postData.text}
 						editPostId={postId}
 						closeModal={() => setVisible(false)}
+					/>
+				)}
+			</Modal>
+			<Modal
+				transparent={true}
+				visible={visibleDelete}
+				onRequestClose={() => setVisibleDelete(false)}
+			>
+				{postData && (
+					<DeleteConfirm
+						cancel={() => setVisibleDelete(false)}
+						confirm={confirmDelete}
 					/>
 				)}
 			</Modal>
@@ -123,7 +138,11 @@ const Card = ({ postId, userId, isPostScreen = false }: cardProps) => {
 				{postData !== undefined && userId === postData.user && (
 					<>
 						<PostButton title='Edit' onPress={editHandler} iconName='edit-3' />
-						<PostButton title='Delete' onPress={tempFunc} iconName='trash' />
+						<PostButton
+							title='Delete'
+							onPress={() => setVisibleDelete(true)}
+							iconName='trash'
+						/>
 					</>
 				)}
 			</View>

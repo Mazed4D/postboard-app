@@ -52,14 +52,15 @@ type sendPostProps = {
 
 const sendPost = async ({ text, navigate }: sendPostProps) => {
 	try {
-		await axios.post(
+		const { data } = await axios.post(
 			`${process.env.REACT_APP_API}/posts`,
 			{
 				text,
 			},
 			await config()
 		);
-		navigate('Home');
+		const userId = await SecureStore.getItemAsync('userId');
+		navigate('Post', { postId: data._id, userId });
 	} catch (error) {
 		console.log(error);
 	}

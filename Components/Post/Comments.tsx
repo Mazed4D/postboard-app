@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import Comment from '../Comment/Comment';
 import Card from './Card';
 import apiServices from '../../api/api.service';
+import { useNavigation } from '@react-navigation/native';
 
 const Comments = ({ userId, postId }: { userId: string; postId: string }) => {
 	const [comments, setComments] = useState<any>([]);
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		apiServices.fetchComments({ postId, setComments });
@@ -26,7 +28,12 @@ const Comments = ({ userId, postId }: { userId: string; postId: string }) => {
 				);
 			}}
 			ListHeaderComponent={
-				<Card userId={userId} postId={postId} isPostScreen={true} />
+				<Card
+					userId={userId}
+					postId={postId}
+					isPostScreen={true}
+					reload={() => navigation.goBack()}
+				/>
 			}
 		/>
 	);

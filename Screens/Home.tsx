@@ -72,6 +72,7 @@ export const Home = ({ userId }: { userId: string }) => {
 								postId={post.item.postId}
 								key={post.item.postId + post.item.updatedAt}
 								userId={userId}
+								reload={() => setRefreshing(true)}
 							/>
 						);
 					}}

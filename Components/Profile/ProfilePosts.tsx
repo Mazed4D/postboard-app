@@ -47,6 +47,7 @@ const ProfilePosts = ({
 								postId={post.item.postId}
 								key={post.item.updatedAt}
 								userId={userId}
+								reload={() => setPageNum(1)}
 							/>
 						);
 					}}
