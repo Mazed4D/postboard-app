@@ -1,7 +1,12 @@
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, Modal, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { FloatingAction } from 'react-native-floating-action';
 import Card from '../Components/Post/Card';
 import apiServices from '../api/api.service';
+import { Feather } from '@expo/vector-icons/';
+import AddPostButton from '../Components/Layout/AddPostButton';
+import AddPostCard from '../Components/AddPost/AddPostCard';
+import { useNavigation } from '@react-navigation/native';
 
 export const Home = ({ userId }: { userId: string }) => {
 	const [posts, setPosts] = useState<Array<string>>([]);
@@ -10,6 +15,8 @@ export const Home = ({ userId }: { userId: string }) => {
 	const [maxPage, setMaxPage] = useState<number>(1);
 	const [pageNum, setPageNum] = useState<number>(1);
 	const [refreshing, setRefreshing] = useState<boolean>(false);
+	const [visible, setVisible] = useState<boolean>(false);
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		const fetchUsers = async () => {
@@ -68,6 +75,14 @@ export const Home = ({ userId }: { userId: string }) => {
 					onRefresh={handleRefresh}
 				/>
 			)}
+			<Modal
+				transparent={true}
+				visible={visible}
+				onRequestClose={() => setVisible(false)}
+			>
+				<AddPostCard navigation={navigation} />
+			</Modal>
+			<AddPostButton onPress={() => setVisible(true)} />
 		</>
 	);
 };

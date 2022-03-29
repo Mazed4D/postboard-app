@@ -7,7 +7,6 @@ import Auth from './Screens/Auth';
 import Profile from './Screens/Profile';
 import Followed from './Screens/Followed';
 import { Feather } from '@expo/vector-icons/';
-import AddPost from './Screens/AddPost';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -62,9 +61,6 @@ export default function App() {
 								case 'Auth':
 									iconName = 'log-in';
 									break;
-								case 'Add Post':
-									iconName = 'plus';
-									break;
 								case 'Followed':
 									iconName = 'users';
 									break;
@@ -85,7 +81,6 @@ export default function App() {
 					<Tab.Screen name='Followed'>
 						{() => <Followed userId={userId} />}
 					</Tab.Screen>
-					<Tab.Screen name='Add Post' component={AddPost} />
 					<Tab.Screen name='Profile'>
 						{() => (
 							<Profile setReload={setReload} reload={reload} userId={userId} />

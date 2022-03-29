@@ -1,43 +1,89 @@
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, Modal } from 'react-native';
 import React from 'react';
 import Card from '../Components/Post/Card';
 import { useEffect, useState } from 'react';
 import apiServices from '../api/api.service';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import AddPostCard from '../Components/AddPost/AddPostCard';
+import AddPostButton from '../Components/Layout/AddPostButton';
 
 const Followed = ({ userId }: { userId: string }) => {
 	const [posts, setPosts] = useState<Array<string>>([]);
+	const [displayPosts, setDisplayPosts] = useState<Array<string>>([]);
 	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
+	const [maxPage, setMaxPage] = useState<number>(1);
 	const [pageNum, setPageNum] = useState<number>(1);
-	const isFocused = useIsFocused();
+	const [refreshing, setRefreshing] = useState<boolean>(false);
+	const [visible, setVisible] = useState<boolean>(false);
+	const navigation = useNavigation();
 
 	useEffect(() => {
-		const followed = true;
 		const fetchUsers = async () => {
 			try {
 				await apiServices.printPosts({
 					pageNum,
-					setPosts,
+					setPosts: setDisplayPosts,
 					setNumberOfPosts,
-					followed,
+					followed: true,
 				});
 			} catch (error) {
 				console.log(error);
 			}
 		};
 		fetchUsers();
-	}, [pageNum, isFocused]);
+		setRefreshing(false);
+	}, [refreshing]);
+
+	useEffect(() => {
+		setMaxPage(Math.ceil(numberOfPosts / 4));
+	}, [numberOfPosts]);
+
+	const handleRefresh = async () => {
+		setPageNum(1);
+		await apiServices.printPosts({
+			pageNum: 1,
+			setPosts: setDisplayPosts,
+			setNumberOfPosts,
+			followed: true,
+		});
+	};
+
+	const handleEndReached = async () => {
+		if (pageNum !== maxPage) {
+			await apiServices.printPosts({
+				pageNum: pageNum + 1,
+				setPosts,
+				setNumberOfPosts,
+			});
+			setPageNum(pageNum + 1);
+			setDisplayPosts(() => {
+				return [...displayPosts, ...posts];
+			});
+		}
+	};
 
 	return (
 		<>
-			{posts && (
+			{displayPosts && (
 				<FlatList
-					data={posts}
+					data={displayPosts}
 					renderItem={(post) => {
 						return <Card postId={post.item} key={post.item} userId={userId} />;
 					}}
+					onEndReached={handleEndReached}
+					onEndReachedThreshold={0.1}
+					refreshing={refreshing}
+					onRefresh={handleRefresh}
 				/>
 			)}
+			<Modal
+				transparent={true}
+				visible={visible}
+				onRequestClose={() => setVisible(false)}
+			>
+				<AddPostCard navigation={navigation} />
+			</Modal>
+			<AddPostButton onPress={() => setVisible(true)} />
 		</>
 	);
 };
