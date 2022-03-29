@@ -179,6 +179,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		flexGrow: 1,
+		borderColor: '#7575FF',
+		borderBottomWidth: 2,
 	},
 	meta: {
 		paddingHorizontal: 30,
