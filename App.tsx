@@ -11,6 +11,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Post from './Screens/Post';
+import HomeProfile from './Screens/HomeProfile';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ const HomeStackScreen = ({ userId }: { userId: string }) => {
 				{() => <Home userId={userId} />}
 			</HomeStack.Screen>
 			<HomeStack.Screen name='Post' component={Post} />
+			<HomeStack.Screen name='HomeProfile' component={HomeProfile} />
 		</HomeStack.Navigator>
 	);
 };

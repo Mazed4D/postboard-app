@@ -1,4 +1,12 @@
-import { View, Text, Button, StyleSheet, Image, Modal } from 'react-native';
+import {
+	View,
+	Text,
+	Button,
+	StyleSheet,
+	Image,
+	Modal,
+	Pressable,
+} from 'react-native';
 import React from 'react';
 import PostButton from '../Elements/PostButton';
 import { useEffect, useState } from 'react';
@@ -75,6 +83,13 @@ const Card = ({ postId, userId, isPostScreen = false, reload }: cardProps) => {
 		setVisible(true);
 	};
 
+	const navigateToProfile = () => {
+		navigation.navigate(
+			'HomeProfile' as never,
+			{ userId: postData.user } as never
+		);
+	};
+
 	return (
 		<View style={styles.cardContainer}>
 			<Modal
@@ -105,11 +120,18 @@ const Card = ({ postId, userId, isPostScreen = false, reload }: cardProps) => {
 				)}
 			</Modal>
 			<View style={styles.meta}>
-				{avatar !== 'user' && (
-					<Image source={{ uri: avatar }} style={styles.image} />
-				)}
-				{avatar === 'user' && <Feather name={'user'} size={50} color='blue' />}
+				<Pressable onPress={navigateToProfile}>
+					{avatar !== 'user' && (
+						<Image source={{ uri: avatar }} style={styles.image} />
+					)}
+
+					{avatar === 'user' && (
+						<Feather name={'user'} size={50} color='blue' />
+					)}
+				</Pressable>
+
 				<Text>{postData ? postData.name : 'Loading...'}</Text>
+
 				{postData !== undefined && !(postData.user === userId) ? (
 					<PostButton
 						title={isFollowed ? 'Unfollow' : 'Follow'}

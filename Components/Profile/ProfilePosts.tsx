@@ -13,8 +13,8 @@ const ProfilePosts = ({
 	reload,
 }: {
 	userId: string;
-	setReload: any;
-	reload: any;
+	setReload?: any;
+	reload?: any;
 }) => {
 	return (
 		<>

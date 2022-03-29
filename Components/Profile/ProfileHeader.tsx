@@ -9,8 +9,8 @@ const ProfileHeader = ({
 	reload,
 	userId,
 }: {
-	setReload: any;
-	reload: boolean;
+	setReload?: any;
+	reload?: boolean;
 	userId: string;
 }) => {
 	const [name, setName] = useState('Loading ...');
@@ -24,7 +24,9 @@ const ProfileHeader = ({
 
 	const logoutHandler = async () => {
 		await SecureStore.deleteItemAsync('token');
-		setReload(!reload);
+		if (setReload) {
+			setReload(!reload);
+		}
 	};
 
 	return (

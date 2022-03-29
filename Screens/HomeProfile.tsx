@@ -3,18 +3,14 @@ import React from 'react';
 import ProfilePosts from '../Components/Profile/ProfilePosts';
 import { useRoute } from '@react-navigation/native';
 
-export default function Profile({
-	setReload,
-	reload,
-	userId,
-}: {
-	setReload: any;
-	reload: boolean;
-	userId: string;
-}) {
+export default function HomeProfile() {
+	const { params } = useRoute();
+	//@ts-ignore
+	const profileId = params.userId;
+
 	return (
 		<View style={styles.page}>
-			<ProfilePosts userId={userId} setReload={setReload} reload={reload} />
+			<ProfilePosts userId={profileId} />
 		</View>
 	);
 }
