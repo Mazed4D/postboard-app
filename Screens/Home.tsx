@@ -9,8 +9,8 @@ import AddPostCard from '../Components/AddPost/AddPostCard';
 import { useNavigation } from '@react-navigation/native';
 
 export const Home = ({ userId }: { userId: string }) => {
-	const [posts, setPosts] = useState<Array<string>>([]);
-	const [displayPosts, setDisplayPosts] = useState<Array<string>>([]);
+	const [posts, setPosts] = useState<Array<any>>([]);
+	const [displayPosts, setDisplayPosts] = useState<Array<any>>([]);
 	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
 	const [maxPage, setMaxPage] = useState<number>(1);
 	const [pageNum, setPageNum] = useState<number>(1);
@@ -67,7 +67,13 @@ export const Home = ({ userId }: { userId: string }) => {
 				<FlatList
 					data={displayPosts}
 					renderItem={(post) => {
-						return <Card postId={post.item} key={post.item} userId={userId} />;
+						return (
+							<Card
+								postId={post.item.postId}
+								key={post.item.postId + post.item.updatedAt}
+								userId={userId}
+							/>
+						);
 					}}
 					onEndReached={handleEndReached}
 					onEndReachedThreshold={0.1}

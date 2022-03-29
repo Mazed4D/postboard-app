@@ -8,8 +8,8 @@ import AddPostCard from '../Components/AddPost/AddPostCard';
 import AddPostButton from '../Components/Layout/AddPostButton';
 
 const Followed = ({ userId }: { userId: string }) => {
-	const [posts, setPosts] = useState<Array<string>>([]);
-	const [displayPosts, setDisplayPosts] = useState<Array<string>>([]);
+	const [posts, setPosts] = useState<Array<any>>([]);
+	const [displayPosts, setDisplayPosts] = useState<Array<any>>([]);
 	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
 	const [maxPage, setMaxPage] = useState<number>(1);
 	const [pageNum, setPageNum] = useState<number>(1);
@@ -54,6 +54,7 @@ const Followed = ({ userId }: { userId: string }) => {
 				pageNum: pageNum + 1,
 				setPosts,
 				setNumberOfPosts,
+				followed: true,
 			});
 			setPageNum(pageNum + 1);
 			setDisplayPosts(() => {
@@ -68,7 +69,13 @@ const Followed = ({ userId }: { userId: string }) => {
 				<FlatList
 					data={displayPosts}
 					renderItem={(post) => {
-						return <Card postId={post.item} key={post.item} userId={userId} />;
+						return (
+							<Card
+								postId={post.item.postId}
+								key={post.item.postId + post.item.updatedAt}
+								userId={userId}
+							/>
+						);
 					}}
 					onEndReached={handleEndReached}
 					onEndReachedThreshold={0.1}

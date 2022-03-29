@@ -38,7 +38,7 @@ const printPosts = async ({
 	}
 	try {
 		const loadPosts = await axios.get(reqString, await config());
-		setPosts(loadPosts.data.postIds);
+		setPosts(loadPosts.data.newPostIds);
 		setNumberOfPosts(loadPosts.data.totalPosts);
 	} catch (error) {
 		console.log(error);

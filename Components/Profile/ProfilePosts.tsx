@@ -15,7 +15,7 @@ const ProfilePosts = ({
 	setReload: any;
 	reload: any;
 }) => {
-	const [posts, setPosts] = useState<Array<string>>([]);
+	const [posts, setPosts] = useState<Array<any>>([]);
 	const [numberOfPosts, setNumberOfPosts] = useState<number>(0);
 	const [pageNum, setPageNum] = useState<number>(1);
 	const isFocused = useIsFocused();
@@ -42,7 +42,13 @@ const ProfilePosts = ({
 				<FlatList
 					data={posts}
 					renderItem={(post) => {
-						return <Card postId={post.item} key={post.item} userId={userId} />;
+						return (
+							<Card
+								postId={post.item.postId}
+								key={post.item.updatedAt}
+								userId={userId}
+							/>
+						);
 					}}
 					ListHeaderComponent={
 						<ProfileHeader
