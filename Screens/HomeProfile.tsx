@@ -10,7 +10,7 @@ export default function HomeProfile() {
 
 	return (
 		<View style={styles.page}>
-			<ProfilePosts userId={profileId} />
+			<ProfilePosts userId={profileId} notOwnProfile={true} />
 		</View>
 	);
 }

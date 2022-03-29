@@ -11,10 +11,12 @@ const ProfilePosts = ({
 	userId,
 	setReload,
 	reload,
+	notOwnProfile = false,
 }: {
 	userId: string;
 	setReload?: any;
 	reload?: any;
+	notOwnProfile?: boolean;
 }) => {
 	return (
 		<>
@@ -26,6 +28,7 @@ const ProfilePosts = ({
 						setReload={setReload}
 						reload={reload}
 						userId={userId}
+						notOwnProfile={notOwnProfile}
 					/>
 				}
 			/>

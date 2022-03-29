@@ -8,18 +8,22 @@ const ProfileHeader = ({
 	setReload,
 	reload,
 	userId,
+	notOwnProfile = false,
 }: {
 	setReload?: any;
 	reload?: boolean;
 	userId: string;
+	notOwnProfile?: boolean;
 }) => {
 	const [name, setName] = useState('Loading ...');
+	const [isFollowed, setIsFollowed] = useState(false);
 	const [avatar, setAvatar] = useState('https://picsum.photos/50/50.jpg');
 
 	useEffect(() => {
 		const postData = { user: userId };
 		apiServices.fetchUserName({ userId, setName });
 		apiServices.fetchPostImage({ postData, setAvatar });
+		apiServices.fetchFollowed({ postData: { user: userId }, setIsFollowed });
 	}, []);
 
 	const logoutHandler = async () => {
@@ -29,6 +33,10 @@ const ProfileHeader = ({
 		}
 	};
 
+	const followHandler = async () => {
+		await apiServices.follow({ user: userId });
+		setIsFollowed(!isFollowed);
+	};
 	return (
 		<View style={styles.header}>
 			<Image
@@ -36,8 +44,13 @@ const ProfileHeader = ({
 				style={{ width: 50, height: 50, borderRadius: 30 }}
 			/>
 			<Text>{name}</Text>
-			{/* <Text>Follow button here</Text> */}
-			<Button title='Logout' onPress={logoutHandler} />
+			{notOwnProfile && (
+				<Button
+					title={isFollowed ? 'Unfollow' : 'Follow'}
+					onPress={followHandler}
+				/>
+			)}
+			{!notOwnProfile && <Button title='Logout' onPress={logoutHandler} />}
 		</View>
 	);
 };
