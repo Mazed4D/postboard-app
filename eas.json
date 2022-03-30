@@ -6,6 +6,10 @@
         "preview": {
             "android": {
                 "buildType": "apk"
+            },
+            "env": {
+                "REACT_APP_API": "https://postboard-api-v1.herokuapp.com/api/v1",
+                "REACT_APP_SERVER": "https://postboard-api-v1.herokuapp.com"
             }
         },
         "preview2": {
