@@ -103,7 +103,7 @@ const addComment = async ({ postId, text, navigate }: addCommentProps) => {
 			},
 			await config()
 		);
-		navigate(0);
+		navigate('Post', { postId: postId });
 	} catch (error) {
 		console.log(error);
 	}

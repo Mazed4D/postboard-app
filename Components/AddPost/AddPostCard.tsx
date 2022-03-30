@@ -8,12 +8,14 @@ const AddPostCard = ({
 	closeModal,
 	editText = '',
 	editPostId = '',
+	isComment = false,
 }: {
 	navigation: any;
 	edit?: boolean;
 	closeModal: any;
 	editText?: string;
 	editPostId?: string;
+	isComment?: boolean;
 }) => {
 	const [text, setText] = useState(editText);
 	const [loading, setLoading] = useState(false);
@@ -22,25 +24,50 @@ const AddPostCard = ({
 		const { navigate } = navigation;
 		setText('');
 		if (edit) {
-			apiServices.editPost({ text: text, postId: editPostId, navigate });
+			if (isComment) {
+				apiServices.editComment({
+					text: text,
+					commentId: editPostId,
+					navigate,
+				});
+			} else {
+				apiServices.editPost({ text: text, postId: editPostId, navigate });
+			}
 		} else {
-			apiServices.sendPost({ text, navigate });
+			if (isComment) {
+				apiServices.addComment({ postId: editPostId, text, navigate });
+			} else {
+				apiServices.sendPost({ text, navigate });
+			}
 		}
 		closeModal();
 	};
 
 	return (
 		<View style={styles.addPostCard}>
-			<Text style={{ fontSize: 20 }}>{edit ? 'Edit post' : 'Add post'}</Text>
+			<Text style={{ fontSize: 20 }}>
+				{edit
+					? isComment
+						? 'Edit comment'
+						: 'Edit post'
+					: isComment
+					? 'Add comment'
+					: 'Add post'}
+			</Text>
 			<TextInput
 				style={styles.text}
 				multiline={true}
-				placeholder='Type your post here'
+				placeholder={
+					isComment ? 'Type your comment here' : 'Type your post here'
+				}
 				maxLength={280}
 				value={text}
 				onChangeText={(e) => setText(e)}
 			/>
-			<Button title='Submit post' onPress={submitPostHandler} />
+			<Button
+				title={isComment ? 'Submit comment' : 'Submit post'}
+				onPress={submitPostHandler}
+			/>
 		</View>
 	);
 };
