@@ -48,6 +48,7 @@ export default function Auth({ setReload, reload }: AuthProps) {
 				<TextInput
 					style={styles.input}
 					value={password}
+					secureTextEntry
 					onChangeText={(e) => setPassword(e)}
 				/>
 				{isRegister ? (
