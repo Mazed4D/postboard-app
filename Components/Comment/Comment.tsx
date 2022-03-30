@@ -69,8 +69,6 @@ const Comment = ({
 					style={{ width: 50, height: 50, borderRadius: 30 }}
 				/>
 				<Text>{user}</Text>
-				{loggedUserId !== userId && <Text>Follow</Text>}
-				{loggedUserId === userId && <View />}
 			</View>
 			<Text style={styles.text}>{text}</Text>
 			{loggedUserId === userId && (
@@ -91,7 +89,7 @@ const styles = StyleSheet.create({
 	meta: {
 		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'space-around',
+		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
 	actions: {
@@ -102,6 +100,7 @@ const styles = StyleSheet.create({
 	text: {
 		marginTop: 10,
 		marginBottom: 10,
+		alignSelf: 'center',
 	},
 });
 
