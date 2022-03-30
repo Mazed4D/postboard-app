@@ -91,7 +91,17 @@ export default function App() {
 				</Tab.Navigator>
 			)}
 			{!token && (
-				<Tab.Navigator initialRouteName='Auth'>
+				<Tab.Navigator
+					initialRouteName='Auth'
+					screenOptions={({ route }) => ({
+						tabBarIcon: ({ color, size }) => {
+							const iconName = 'log-in';
+							return <Feather name={iconName} size={size} color={color} />;
+						},
+						tabBarActiveTintColor: '#7575FF',
+						tabBarInactiveTintColor: 'gray',
+					})}
+				>
 					<Tab.Screen name='Auth'>
 						{() => <Auth setReload={setReload} reload={reload} />}
 					</Tab.Screen>
