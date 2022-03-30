@@ -15,12 +15,15 @@ export default function Auth({ setReload, reload }: AuthProps) {
 
 	const authHandler = async () => {
 		if (isRegister) {
-			const res = await authServices.register({ username, email, password });
-			console.log(res);
+			await authServices.register({ username, email, password });
 		} else {
-			const res = await authServices.login({ email, password });
-			console.log(res);
+			await authServices.login({ email, password });
 		}
+		setReload(!reload);
+	};
+
+	const authAsLogin = async () => {
+		await authServices.login({ email: 'test@test.com', password: 'testpass' });
 		setReload(!reload);
 	};
 
@@ -54,7 +57,10 @@ export default function Auth({ setReload, reload }: AuthProps) {
 				{isRegister ? (
 					<Button title='Register' onPress={authHandler} />
 				) : (
-					<Button title='Login' onPress={authHandler} />
+					<>
+						<Button title='Login' onPress={authHandler} />
+						<Button title='Login as test' onPress={authAsLogin} />
+					</>
 				)}
 				<Button
 					title={`${isRegister ? 'Already' : `Don't`} have an account?`}
