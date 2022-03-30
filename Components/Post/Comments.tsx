@@ -45,14 +45,15 @@ const Comments = ({ userId, postId }: { userId: string; postId: string }) => {
 				renderItem={(comment) => {
 					return (
 						<Comment
-							key={comment.item._id}
 							commentId={comment.item._id}
 							user={comment.item.username}
 							userId={comment.item.user}
 							text={comment.item.text}
+							loggedUserId={userId}
 						/>
 					);
 				}}
+				keyExtractor={(item, index) => item._id}
 				ListHeaderComponent={
 					<>
 						<Card

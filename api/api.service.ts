@@ -278,13 +278,12 @@ type deleteCommentProps = {
 	navigate: Function;
 };
 
-const deleteComment = async ({ commentId, navigate }: deleteCommentProps) => {
+const deleteComment = async ({ commentId }: deleteCommentProps) => {
 	try {
 		await axios.delete(
 			`${process.env.REACT_APP_API}/comments/${commentId}`,
 			await config()
 		);
-		navigate(0);
 	} catch (error) {
 		console.log(error);
 	}

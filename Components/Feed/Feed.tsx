@@ -122,12 +122,12 @@ export const Feed = ({
 						return (
 							<Card
 								postId={post.item.postId}
-								key={post.item.postId + post.item.updatedAt}
 								userId={userId}
 								reload={() => setRefreshing(true)}
 							/>
 						);
 					}}
+					keyExtractor={(item, index) => `${item.postId}${item.updatedAt}`}
 					onEndReached={handleEndReached}
 					onEndReachedThreshold={0.1}
 					refreshing={refreshing}
