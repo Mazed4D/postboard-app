@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import 'dotenv/config';
 
 const config = async () => {
 	const token = await SecureStore.getItemAsync('token');
