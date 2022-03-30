@@ -6,11 +6,11 @@ import { useRoute } from '@react-navigation/native';
 export default function HomeProfile() {
 	const { params } = useRoute();
 	//@ts-ignore
-	const profileId = params.userId;
+	const { userId, notOwnProfile } = params;
 
 	return (
 		<View style={styles.page}>
-			<ProfilePosts userId={profileId} notOwnProfile={true} />
+			<ProfilePosts userId={userId} notOwnProfile={notOwnProfile} />
 		</View>
 	);
 }

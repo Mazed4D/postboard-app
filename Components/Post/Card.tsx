@@ -84,9 +84,10 @@ const Card = ({ postId, userId, isPostScreen = false, reload }: cardProps) => {
 	};
 
 	const navigateToProfile = () => {
+		const notOwnProfile = !(postData.user === userId);
 		navigation.navigate(
 			'HomeProfile' as never,
-			{ userId: postData.user } as never
+			{ userId: postData.user, notOwnProfile } as never
 		);
 	};
 
